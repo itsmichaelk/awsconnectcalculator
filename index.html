@@ -21,7 +21,12 @@
       <label for="countOutDuration">Dauer pro Anruf:</label>
       <input type="text" id="countOutDuration""><br><br>
       <br>
-      <input type="button" value="  Berechnen  "onclick="onCLickButton()" id="btn">
+      <input type="button" class="btn" onclick="onCLickButton()" id="btn" value="  Berechnen  " style="color: white;font-size: 18px;">
+        <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+          <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+          <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+        </svg>
+      </input>
     </form>
     <br>
     <br>
@@ -37,6 +42,45 @@
   h1,h2,label,p, #btn {
     margin-left: 50px;
   }
+  @import url('https://fonts.googleapis.com/css?family=Lato:100&display=swap');
+
+
+.btn {
+  width: 180px;
+  height: 60px;
+  cursor: pointer;
+  background: #4F95DA;
+  border: 1px solid #91C9FF;
+  outline: none;
+  transition: 0.4s ease-in-out;
+}
+
+svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  fill: none;
+  stroke: #fff;
+  stroke-dasharray: 150 480;
+  stroke-dashoffset: 150;
+  transition: 0.4s ease-in-out;
+}
+
+.btn:hover  {
+  transition: 0.4s ease-in-out;
+  background: #03b1fc;
+}
+
+.btn:hover svg {
+  stroke-dashoffset: -480;
+}
+
+.btn span {
+  color: white;
+  font-size: 18px;
+  font-weight: 100;
+}
+
 </style>
 
 
@@ -74,6 +118,7 @@ function onCLickButton(){
       if (isNaN(allValues[i]) || allValues[i] == "") {
         labelDaily.textContent = "Oops. Something went wrong."
         labelMonthly.textContent = "Maybe you missed a field or you entered something that isn't a number."
+        break
       } else {
         labelDaily.textContent = dailyTotalLabel
         labelMonthly.textContent = monthlyTotalLabel
