@@ -1,135 +1,132 @@
 <!DOCTYPE html>
 <html>
   <body>
+
     <br>
     <h1>AWS Connect Calculator</h1>
     <p>Made my Michael K.</p>
-
     <br>
 
     <form>
       <h2>General</h2>
-      <label for="countAgents">Anzahl der Agents:</label>
+      <label for="countAgents">Anzahl der Agents</label><br>
       <input type="text" id="countAgents""><br><br>
       <h2>Eingehende Anrufe</h2>
-      <label for="countInCalls">Anzahl täglicher Anrufe pro Agent:</label>
+      <label for="countInCalls">Anzahl täglicher Anrufe pro Agent</label><br>
       <input type="text" id="countInCalls""><br><br>
-      <label for="countInDuration">Dauer pro Anruf:</label>
+      <label for="countInDuration">Dauer pro Anruf</label><br>
       <input type="text" id="countInDuration""><br><br>
       <h2>Ausgehende Anrufe</h2>
-      <label for="countOutCalls">Anzahl täglicher Anrufe pro Agent:</label>
+      <label for="countOutCalls">Anzahl täglicher Anrufe pro Agent</label><br>
       <input type="text" id="countOutCalls""><br><br>
-      <label for="countOutDuration">Dauer pro Anruf:</label>
+      <label for="countOutDuration">Dauer pro Anruf</label><br>
       <input type="text" id="countOutDuration""><br><br>
       <br>
-      <input type="button" class="btn" onclick="onCLickButton()" id="btn" value="  Berechnen  " style="color: white;font-size: 18px;">
-        <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
-          <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
-          <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
-        </svg>
-      </input>
+      <input type="button" class="btn" onclick="onCLickButton()" value="  Berechnen  " style="color: white;font-size: 18px;">
     </form>
     <br>
     <br>
-    <label for="dailyCost" id="dailyCost">Gesamtkosten pro Tag: </label><br>
-    <label for="monthlyCost" id="monthlyCost">Gesamtkosten pro Monat: </label>
+    <label for="dailyCost" id="dailyCost"></label><br>
+    <label for="monthlyCost" id="monthlyCost"></label>
 
   </body>
 </html>
 
 
-
+<!-- styling -->
 <style>
-  h1,h2,label,p, #btn {
+  * {
+    color: black;
+  }
+  h1,h2,label,p, .btn, input {
     margin-left: 50px;
   }
+
   h1 {
     margin-bottom: 0px;
   }
-  @import url('https://fonts.googleapis.com/css?family=Lato:100&display=swap');
 
+  label {
+    font-size: 18px;
+  }
 
-.btn {
-  width: 180px;
-  height: 60px;
-  cursor: pointer;
-  background: #4F95DA;
-  border: 1px solid #91C9FF;
-  outline: none;
-  transition: 0.4s ease-in-out;
-}
+  input {
+    margin-top: 10px;
+    color: black;
+  }
 
-svg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  fill: none;
-  stroke: #fff;
-  stroke-dasharray: 150 480;
-  stroke-dashoffset: 150;
-  transition: 0.4s ease-in-out;
-}
+  body { 
+    background-color: white;
+  }
 
-.btn:hover  {
-  transition: 0.4s ease-in-out;
-  background: #03b1fc;
-}
+  .btn {
+    width: 180px;
+    height: 60px;
+    cursor: pointer;
+    background: #4F95DA;
+    border: 1px solid #91C9FF;
+    outline: none;
+    transition: 0.4s ease-in-out;
+  }
 
-.btn:hover svg {
-  stroke-dashoffset: -480;
-}
+  .btn:hover  {
+    transition: 0.4s ease-in-out;
+    background: #03b1fc;
+  }
 
-.btn span {
-  color: white;
-  font-size: 18px;
-  font-weight: 100;
-}
+  .btn:hover svg {
+    stroke-dashoffset: -480;
+  }
 
+  .btn span {
+    color: white;
+    font-size: 18px;
+    font-weight: 100;
+  }
 </style>
 
 
 
-
+<!-- scripting -->
 <script>
-var labelDaily = document.querySelector('label[for="dailyCost"]')
-var labelMonthly = document.querySelector('label[for="monthlyCost"]')
+  // get final output labels
+  var labelDaily = document.querySelector('label[for="dailyCost"]')
+  var labelMonthly = document.querySelector('label[for="monthlyCost"]')
 
+  function onCLickButton(){
+      //get values of textfields
+      anzAgents = document.getElementById("countAgents").value;
+      inCalls = document.getElementById("countInCalls").value;
+      inDur = document.getElementById("countInDuration").value;
+      outCalls = document.getElementById("countOutCalls").value;
+      outDur = document.getElementById("countOutDuration").value;
 
+      //calculate values of textfields and multiply them by the aws connect pricing rates
+      var all = anzAgents * inCalls * inDur * outCalls * outDur
+      var basicCostPM = 0.018
+      var inCallsPM = 0.0040
+      var outCallsPM = 0.012
+      var agentTotal = anzAgents * 0.1
+      var dailyInTotal = anzAgents * inCalls * inDur * inCallsPM
+      var dailyOutTotal = anzAgents * outCalls * outDur * outCallsPM
+      var basicTotal = (anzAgents * inCalls * inDur * basicCostPM) + (anzAgents * outCalls * outDur * basicCostPM)
+      var dailyTotal = agentTotal + dailyInTotal + dailyOutTotal + basicTotal
+      var monthlyTotal = dailyTotal * 20
+      var dailyTotalLabel = "Gesamtkosten pro Tag: " + dailyTotal.toFixed(2) + "€"
+      var monthlyTotalLabel = "Gesamtkosten pro Monat: " + monthlyTotal.toFixed(2) + "€"
+      var allValues = [anzAgents,inCalls,inDur,outCalls,outDur]
+      var allValuesLength = allValues.length;
 
-
-function onCLickButton(){
-    anzAgents = document.getElementById("countAgents").value;
-    inCalls = document.getElementById("countInCalls").value;
-    inDur = document.getElementById("countInDuration").value;
-    outCalls = document.getElementById("countOutCalls").value;
-    outDur = document.getElementById("countOutDuration").value;
-    var all = anzAgents * inCalls * inDur * outCalls * outDur
-    var basicCostPM = 0.018
-    var inCallsPM = 0.0040
-    var outCallsPM = 0.012
-    var agentTotal = anzAgents * 0.1
-    var dailyInTotal = anzAgents * inCalls * inDur * inCallsPM
-    var dailyOutTotal = anzAgents * outCalls * outDur * outCallsPM
-    var basicTotal = (anzAgents * inCalls * inDur * basicCostPM) + (anzAgents * outCalls * outDur * basicCostPM)
-    var dailyTotal = agentTotal + dailyInTotal + dailyOutTotal + basicTotal
-    var monthlyTotal = dailyTotal * 20
-    var dailyTotalLabel = "Gesamtkosten pro Tag: " + dailyTotal.toFixed(2) + "€"
-    var monthlyTotalLabel = "Gesamtkosten pro Monat: " + monthlyTotal.toFixed(2) + "€"
-
-    var allValues = [anzAgents,inCalls,inDur,outCalls,outDur]
-    var allValuesLength = allValues.length;
-    for (var i = 0; i < allValuesLength; i++) {
-      if (isNaN(allValues[i]) || allValues[i] == "") {
-        labelDaily.textContent = "Oops. Something went wrong."
-        labelMonthly.textContent = "Maybe you missed a field or you entered something that isn't a number."
-        break
-      } else {
-        labelDaily.textContent = dailyTotalLabel
-        labelMonthly.textContent = monthlyTotalLabel
+      //check if textfield values are numbers or empty
+      for (var i = 0; i < allValuesLength; i++) {
+        if (isNaN(allValues[i]) || allValues[i] == "") {
+          labelDaily.textContent = "Oops. Something went wrong."
+          labelMonthly.textContent = "Maybe you missed a field or you entered something that isn't a number."
+          break
+        } else {
+          labelDaily.textContent = dailyTotalLabel
+          labelMonthly.textContent = monthlyTotalLabel
+        }
       }
-    }
-
-    
-}
-
+  }
 </script>
