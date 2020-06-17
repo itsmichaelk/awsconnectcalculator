@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <br>
+    <h1>AWS Connect Calculator</h1>
+
+    <br>
+
+    <form>
+      <h2>General</h2>
+      <label for="countAgents">Anzahl der Agents:</label>
+      <input type="text" id="countAgents""><br><br>
+      <h2>Eingehende Anrufe</h2>
+      <label for="countInCalls">Anzahl täglicher Anrufe pro Agent:</label>
+      <input type="text" id="countInCalls""><br><br>
+      <label for="countInDuration">Dauer pro Anruf:</label>
+      <input type="text" id="countInDuration""><br><br>
+      <h2>Ausgehende Anrufe</h2>
+      <label for="countOutCalls">Anzahl täglicher Anrufe pro Agent:</label>
+      <input type="text" id="countOutCalls""><br><br>
+      <label for="countOutDuration">Dauer pro Anruf:</label>
+      <input type="text" id="countOutDuration""><br><br>
+      <br>
+      <input type="button" value="  Berechnen  "onclick="onCLickButton()" id="btn">
+    </form>
+    <br>
+    <br>
+    <label for="dailyCost" id="dailyCost">Gesamtkosten pro Tag: </label><br>
+    <label for="monthlyCost" id="monthlyCost">Gesamtkosten pro Monat: </label>
+
+  </body>
+</html>
+
+
+
+<style>
+  h1,h2,label,p, #btn {
+    margin-left: 50px;
+  }
+</style>
+
+
+
+
+<script>
+var labelDaily = document.querySelector('label[for="dailyCost"]')
+var labelMonthly = document.querySelector('label[for="monthlyCost"]')
+
+function onCLickButton(){
+    anzAgents = document.getElementById("countAgents").value;
+    inCalls = document.getElementById("countInCalls").value;
+    inDur = document.getElementById("countInDuration").value;
+    outCalls = document.getElementById("countOutCalls").value;
+    outDur = document.getElementById("countOutDuration").value;
+    var all = anzAgents * inCalls * inDur * outCalls * outDur
+    var basicCostPM = 0.018
+    var inCallsPM = 0.0040
+    var outCallsPM = 0.012
+    var agentTotal = anzAgents * 0.1
+    var dailyInTotal = anzAgents * inCalls * inDur * inCallsPM
+    var dailyOutTotal = anzAgents * outCalls * outDur * outCallsPM
+    var basicTotal = (anzAgents * inCalls * inDur * basicCostPM) + (anzAgents * outCalls * outDur * basicCostPM)
+
+    var dailyTotal = "Gesamtkosten pro Tag: " + (agentTotal + dailyInTotal + dailyOutTotal + basicTotal) + "€"
+    var dailyTotalValue = agentTotal + dailyInTotal + dailyOutTotal + basicTotal
+    var monthlyTotal = "Gesamtkosten pro Monat: " + (dailyTotalValue * 20) + "€"
+    labelDaily.textContent = dailyTotal
+    labelMonthly.textContent = monthlyTotal
+}
+
+</script>
