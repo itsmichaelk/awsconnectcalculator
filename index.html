@@ -60,12 +60,12 @@ function onCLickButton(){
     var dailyInTotal = anzAgents * inCalls * inDur * inCallsPM
     var dailyOutTotal = anzAgents * outCalls * outDur * outCallsPM
     var basicTotal = (anzAgents * inCalls * inDur * basicCostPM) + (anzAgents * outCalls * outDur * basicCostPM)
-
-    var dailyTotal = "Gesamtkosten pro Tag: " + (agentTotal + dailyInTotal + dailyOutTotal + basicTotal) + "€"
-    var dailyTotalValue = agentTotal + dailyInTotal + dailyOutTotal + basicTotal
-    var monthlyTotal = "Gesamtkosten pro Monat: " + (dailyTotalValue * 20) + "€"
-    labelDaily.textContent = dailyTotal
-    labelMonthly.textContent = monthlyTotal
+    var dailyTotal = agentTotal + dailyInTotal + dailyOutTotal + basicTotal
+    var monthlyTotal = dailyTotal * 20
+    var dailyTotalLabel = "Gesamtkosten pro Tag: " + dailyTotal.toFixed(2) + "€"
+    var monthlyTotalLabel = "Gesamtkosten pro Monat: " + monthlyTotal.toFixed(2) + "€"
+    labelDaily.textContent = dailyTotalLabel
+    labelMonthly.textContent = monthlyTotalLabel
 }
 
 </script>
