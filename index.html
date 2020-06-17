@@ -46,6 +46,9 @@
 var labelDaily = document.querySelector('label[for="dailyCost"]')
 var labelMonthly = document.querySelector('label[for="monthlyCost"]')
 
+
+
+
 function onCLickButton(){
     anzAgents = document.getElementById("countAgents").value;
     inCalls = document.getElementById("countInCalls").value;
@@ -64,8 +67,20 @@ function onCLickButton(){
     var monthlyTotal = dailyTotal * 20
     var dailyTotalLabel = "Gesamtkosten pro Tag: " + dailyTotal.toFixed(2) + "€"
     var monthlyTotalLabel = "Gesamtkosten pro Monat: " + monthlyTotal.toFixed(2) + "€"
-    labelDaily.textContent = dailyTotalLabel
-    labelMonthly.textContent = monthlyTotalLabel
+
+    var allValues = [anzAgents,inCalls,inDur,outCalls,outDur]
+    var allValuesLength = allValues.length;
+    for (var i = 0; i < allValuesLength; i++) {
+      if (isNaN(allValues[i]) || allValues[i] == "") {
+        labelDaily.textContent = "Oops. Something went wrong."
+        labelMonthly.textContent = "Maybe you missed a field or you entered something that isn't a number."
+      } else {
+        labelDaily.textContent = dailyTotalLabel
+        labelMonthly.textContent = monthlyTotalLabel
+      }
+    }
+
+    
 }
 
 </script>
